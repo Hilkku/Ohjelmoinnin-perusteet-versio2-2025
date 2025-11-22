@@ -1,0 +1,2 @@
+123|Anna Virtanen|2025-10-31|10:00|2|19.95|True|Kokoustila A|0401234567|anna.virtanen@example.com
+888|Kukko Pärssinen|2025-11-22|11:29|2|19.95|True|Kokoustila B|0401234567|kukko.parssinen@example.com
