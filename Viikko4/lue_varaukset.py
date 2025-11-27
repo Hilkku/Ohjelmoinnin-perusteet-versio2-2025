@@ -38,7 +38,7 @@ def muunna_varaustiedot(varaus: list) -> list:
     muutettu_varaus.append(aika.strftime("%H:%M"))
     muutettu_varaus.append(int(varaus[6]))
     muutettu_varaus.append(float(varaus[7]))
-    muutettu_varaus.append(bool(varaus[8]))
+    muutettu_varaus.append(varaus[8].strip() == "True")
     muutettu_varaus.append(varaus[9])
     luotu = datetime.strptime(varaus[10], "%Y-%m-%d %H:%M:%S")
     muutettu_varaus.append(luotu.strftime("%d.%m.%Y %H:%M"))
@@ -57,17 +57,34 @@ def hae_varaukset(varaustiedosto: str) -> list:
     return varaukset
 
 def main():
-    # HUOM! seuraaville riveille ei tarvitse tehdä mitään osassa A!
-    # Osa B vaatii muutoksia -> Esim. tulostuksien (print-funktio) muuttamisen.
-    # Kutsutaan funkioita hae_varaukset, joka palauttaa kaikki varaukset oikeilla tietotyypeillä
     varaukset = hae_varaukset("varaukset.txt")
+    # Tulosta alkuperäinen taulukko
     print(" | ".join(varaukset[0]))
     print("------------------------------------------------------------------------")
     for varaus in varaukset[1:]:
-        print(" | ".join(str(x) for x in varaus))
+        tulostettavat = []
+        for x in varaus:
+            if isinstance(x, bool):
+                tulostettavat.append("kyllä" if x else "ei")
+            else:
+                tulostettavat.append(str(x))
+        print(" | ".join(tulostettavat))
         tietotyypit = [type(x).__name__ for x in varaus]
         print(" | ".join(tietotyypit))
         print("------------------------------------------------------------------------")
+
+    # Tulosta vahvistetut varaukset
+    print("\nvahvistetut varaukset")
+    print("------------------------------------------------------------------------")
+    for varaus in varaukset[1:]:
+        if varaus[8]:  # boolean True
+            nimi = varaus[1]
+            tila = varaus[9]
+            paiva = varaus[4]
+            aika = varaus[5]
+            print(f"{nimi}, {tila}, {paiva} klo {aika}")
+
+
 
 if __name__ == "__main__":
     main()
