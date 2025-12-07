@@ -4,8 +4,10 @@
 
 from datetime import datetime
 from typing import Dict, List, Tuple
+#tyyppivihjeiden työkalut käyttöön Pythonille.
 
-# Sanakirja englanti → suomi
+# Sanakirja englanti → suomi. Käytän sanakirjaa, koska se kuulosti helpoimmalta vaihtoehdolta. 
+# Jos käännettävää olisi paljon, täytyisi keksiä toinen tapa.
 paivien_nimet: Dict[str, str] = {
     "Monday": "maanantai",
     "Tuesday": "tiistai",
@@ -20,7 +22,7 @@ def lue_data(tiedosto: str) -> Dict[str, Tuple[str, List[float]]]:
     """Lukee CSV-tiedoston ja palauttaa sanakirjan."""
     data: Dict[str, Tuple[str, List[float]]] = {}
     with open(tiedosto, "r", encoding="utf-8") as f:
-        next(f)  # Ohita otsikkorivi
+        next(f)  #Ohita otsikkorivi, joka erilainen.
         for line in f:
             aika, k1, k2, k3, t1, t2, t3 = line.strip().split(";")
             dt: datetime = datetime.fromisoformat(aika)
@@ -40,7 +42,7 @@ def muotoile_luku(arvo: float) -> str:
     return f"{arvo:.2f}".replace(".", ",")
 
 def kirjoita_yhteenveto(viikkodata: Dict[str, Dict[str, Tuple[str, List[float]]]], tiedosto: str) -> None:
-    """Kirjoittaa yhteenvedon tiedostoon, sisältäen viikkokohtaiset taulukot, summat ja keskiarvot."""
+    """Kirjoittaa yhteenvedon tiedostoon. Sisältää viikkoyhteenvedot sekä summat ja keskiarvot."""
     järjestys: List[str] = ["maanantai", "tiistai", "keskiviikko", "torstai",
                              "perjantai", "lauantai", "sunnuntai"]
 
@@ -72,7 +74,7 @@ def kirjoita_yhteenveto(viikkodata: Dict[str, Dict[str, Tuple[str, List[float]]]
                     kokonaissumma = [kokonaissumma[i] + arvot[i] for i in range(6)]
                     paivien_lkm += 1
 
-            # Viikon kokonaissummat
+            #Viikon kokonaissumma
             f.write("-" * 75 + "\n")
             f.write("Viikon summa:\n")
             f.write(f"{'':<12}{'':<12}" +
@@ -81,7 +83,7 @@ def kirjoita_yhteenveto(viikkodata: Dict[str, Dict[str, Tuple[str, List[float]]]
                     "".join(f"{muotoile_luku(x):>8}" for x in viikko_summa[3:]) +
                     "\n\n")
 
-        # Lopuksi kokonaissummat ja keskiarvot
+        #Lopuksi kokonaissummat ja keskiarvot
         f.write("=" * 75 + "\n")
         f.write("KOKONAISSUMMAT (viikot 41–43):\n")
         f.write(f"{'':<12}{'':<12}" +
